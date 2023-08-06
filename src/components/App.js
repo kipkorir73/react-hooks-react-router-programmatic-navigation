@@ -1,28 +1,27 @@
-import React, { useState } from "react";
-import { Route, Switch } from "react-router-dom";
-import Home from "./Home";
-import About from "./About";
-import Login from "./Login";
-import Navbar from "./Navbar";
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Login from './Login';
+import Home from './Home';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+
+  function handleLogin(user) {
+    setUser(user);
+  }
 
   return (
-    <div>
-      <Navbar setIsLoggedIn={setIsLoggedIn} />
+    <Router>
       <Switch>
-        <Route exact path="/about">
-          <About />
+        <Route path="/login">
+          <Login onLogin={handleLogin} />
         </Route>
-        <Route exact path="/login">
-          <Login setIsLoggedIn={setIsLoggedIn} />
+        <Route path="/home">
+          <Home isSignedIn={!!user} />
         </Route>
-        <Route exact path="/">
-          <Home isLoggedIn={isLoggedIn} />
-        </Route>
+        {/* Add more routes if needed */}
       </Switch>
-    </div>
+    </Router>
   );
 }
 
